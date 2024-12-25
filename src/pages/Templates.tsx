@@ -1,8 +1,16 @@
 import { FC } from 'react';
 import { useResumeStore } from '../store/useResumeStore';
+import { useNavigate } from 'react-router-dom';
+
 
 const Templates: FC = () => {
+  const navigate = useNavigate();
   const { templates, selectedTemplate, setSelectedTemplate } = useResumeStore();
+
+  const handleTemplateSelect = (template: string) => {
+    setSelectedTemplate(template);
+    navigate('/resume-preview');
+  }
 
   return (
     <div>
@@ -17,7 +25,7 @@ const Templates: FC = () => {
         {templates.map((template) => (
           <button
             key={template}
-            onClick={() => setSelectedTemplate(template)}
+            onClick={() => handleTemplateSelect(template)}
             className={`p-4 rounded-lg border-2 ${
               selectedTemplate === template
                 ? 'border-indigo-600 bg-indigo-50'
