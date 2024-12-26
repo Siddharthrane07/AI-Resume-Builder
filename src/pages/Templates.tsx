@@ -1,16 +1,29 @@
-import { FC } from 'react';
+// src/pages/Templates.tsx
+import { FC, useEffect, useState } from 'react';
 import { useResumeStore } from '../store/useResumeStore';
 import { useNavigate } from 'react-router-dom';
 
-
 const Templates: FC = () => {
   const navigate = useNavigate();
-  const { templates, selectedTemplate, setSelectedTemplate } = useResumeStore();
+  const { templates, selectedTemplate, setSelectedTemplate, fetchTemplates } = useResumeStore();
+  const [previews, setPreviews] = useState<{ [key: string]: string }>({});
+
+  useEffect(() => {
+    fetchTemplates();
+  }, [fetchTemplates]);
+
+  useEffect(() => {
+    templates.forEach((template) => {
+      import(`../${template}`).then((module) => {
+        setPreviews((prev) => ({ ...prev, [template]: module.default }));
+      });
+    });
+  }, [templates]);
 
   const handleTemplateSelect = (template: string) => {
     setSelectedTemplate(template);
-    navigate('/resume-preview');
-  }
+    navigate('/editor');
+  };
 
   return (
     <div>
@@ -33,10 +46,10 @@ const Templates: FC = () => {
             }`}
           >
             <div className="aspect-[8.5/11] bg-white rounded shadow-sm mb-4">
-              {/* Template preview will go here */}
+              <div>{previews[template]}</div>
             </div>
             <h3 className="text-sm font-medium text-gray-900 capitalize">
-              {template.replace(/-/g, ' ')}
+              {template.split('/').pop()?.replace(/-/g, ' ').replace('.jsx', '')}
             </h3>
           </button>
         ))}

@@ -1,4 +1,5 @@
-import { FC, useState } from 'react';
+// src/pages/Editor.tsx
+import { FC, useState, useEffect } from 'react';
 import { useResumeStore } from '../store/useResumeStore';
 import PersonalInfoForm from '../components/editor/PersonalInfoForm';
 import ExperienceForm from '../components/editor/ExperienceForm';
@@ -9,7 +10,16 @@ import { PersonalInfo, Experience, Education, Skill, Project } from '../types/re
 
 const Editor: FC = () => {
   const [activeSection, setActiveSection] = useState('personal');
-  const { currentResume, setCurrentResume } = useResumeStore();
+  const { currentResume, setCurrentResume, selectedTemplate } = useResumeStore();
+  const [TemplateComponent, setTemplateComponent] = useState<FC | null>(null);
+
+  useEffect(() => {
+    if (selectedTemplate) {
+      import(`../${selectedTemplate}`).then((module) => {
+        setTemplateComponent(() => module.default);
+      });
+    }
+  }, [selectedTemplate]);
 
   const handlePersonalInfoSubmit = (data: PersonalInfo) => {
     if (currentResume) {
@@ -135,6 +145,13 @@ const Editor: FC = () => {
           />
         )}
       </div>
+      
+      {TemplateComponent && (
+        <div className="mt-8">
+          <h2 className="text-xl font-bold text-gray-900">Template Preview</h2>
+          <TemplateComponent resume={currentResume} />
+        </div>
+      )}
     </div>
   );
 };

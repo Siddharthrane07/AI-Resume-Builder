@@ -1,29 +1,28 @@
-import { create } from 'zustand';
-import { Resume } from '../types/resume';
+// src/store/useResumeStore.ts
+import create from 'zustand';
 
-interface ResumeState {
-  currentResume: Resume | null;
-  setCurrentResume: (resume: Resume) => void;
+interface ResumeStore {
   templates: string[];
   selectedTemplate: string;
-  setSelectedTemplate: (templateId: string) => void;
+  currentResume: any;
+  setSelectedTemplate: (template: string) => void;
+  setCurrentResume: (resume: any) => void;
+  fetchTemplates: () => void;
 }
 
-export const useResumeStore = create<ResumeState>((set) => ({
+export const useResumeStore = create<ResumeStore>((set) => ({
+  templates: [],
+  selectedTemplate: '',
   currentResume: null,
-  setCurrentResume: (resume) => set({ currentResume: resume }),
-  templates: [
-    'double-column',
-    'ivy-league',
-    'elegant',
-    'contemporary',
-    'polished',
-    'modern',
-    'creative',
-    'timeline',
-    'stylish',
-    'single-column',
-  ],
-  selectedTemplate: 'modern',
-  setSelectedTemplate: (templateId) => set({ selectedTemplate: templateId }),
+  setSelectedTemplate: (template: string) => set({ selectedTemplate: template }),
+  setCurrentResume: (resume: any) => set({ currentResume: resume }),
+  fetchTemplates: async () => {
+    const templatePaths = [
+      'Themes/Theme1/Theme1.jsx',
+      'Themes/Theme2/Theme2.jsx',
+      'Themes/Theme3/Theme3.jsx',
+      'Themes/Theme4/Theme4.jsx'
+    ];
+    set({ templates: templatePaths });
+  },
 }));
