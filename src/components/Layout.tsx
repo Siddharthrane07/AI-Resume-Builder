@@ -13,6 +13,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
     { name: 'Dashboard', href: '/', icon: LayoutIcon },
     { name: 'Templates', href: '/templates', icon: LayoutTemplate },
     { name: 'Editor', href: '/editor', icon: FileText },
+    { name: 'Customize', href: '/customize', icon: FileText }, // Add Customize link
   ];
 
   return (
