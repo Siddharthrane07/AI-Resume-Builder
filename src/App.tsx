@@ -1,4 +1,4 @@
-// src/App.tsx
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import Dashboard from './pages/Dashboard';
@@ -7,9 +7,10 @@ import Templates from './pages/Templates';
 import Preview from './pages/Preview';
 import ResumePreview from './pages/ResumePreview';
 import Layout from './components/Layout';
-import { ResumeProvider } from './Context/ResumeContext'; // Import the provider
+import { ResumeProvider } from './Context/ResumeContext';
+import SavedData from './pages/SavedData';
 
-function App() {
+const App: React.FC = () => {
   return (
     <ResumeProvider>
       <Router>
@@ -20,6 +21,7 @@ function App() {
             <Route path="/templates" element={<Templates />} />
             <Route path="/preview" element={<Preview />} />
             <Route path="/resume-preview" element={<ResumePreview />} />
+            <Route path="/resume-data" element={<SavedData />} />
           </Routes>
         </Layout>
         <Toaster position="top-center" />
