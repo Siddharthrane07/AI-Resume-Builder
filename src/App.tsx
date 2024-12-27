@@ -6,6 +6,7 @@ import Editor from './pages/Editor';
 import Templates from './pages/Templates';
 import Preview from './pages/Preview';
 import ResumePreview from './pages/ResumePreview';
+import Customize from './pages/Customize';
 import Layout from './components/Layout';
 import { ResumeProvider } from './Context/ResumeContext';
 import SavedData from './pages/SavedData';
@@ -21,6 +22,7 @@ const App: React.FC = () => {
             <Route path="/templates" element={<Templates />} />
             <Route path="/preview" element={<Preview />} />
             <Route path="/resume-preview" element={<ResumePreview />} />
+            <Route path="/customize" element={<Customize />} /> {/* New route */}
             <Route path="/resume-data" element={<SavedData />} />
           </Routes>
         </Layout>
